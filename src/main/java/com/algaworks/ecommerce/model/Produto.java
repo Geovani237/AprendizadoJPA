@@ -1,4 +1,4 @@
-package com.algaworks;
+package com.algaworks.ecommerce.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
