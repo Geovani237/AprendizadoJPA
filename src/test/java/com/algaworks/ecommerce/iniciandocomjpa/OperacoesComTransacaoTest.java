@@ -9,6 +9,21 @@ import java.math.BigDecimal;
 
 public class OperacoesComTransacaoTest extends EntityManagerTest {
 
+    @Test
+    public void impedirOperacaoComBancoDeDados() {
+        Produto produto = entityManager.find(Produto.class, 1);
+        entityManager.detach(produto); //esse metodo desanexa uma instancia de uma entidade do entityManager
+
+        entityManager.getTransaction().begin();
+        produto.setNome("Kindle Paperwhite 2 Geração");
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Produto produtoVerificado = entityManager.find(Produto.class, 1);
+        Assertions.assertEquals("Kindle", produtoVerificado.getNome());
+    }
+
 
     @Test
     public void inserirObjetoComMerge() {
