@@ -34,6 +34,6 @@ public class Pedido {
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
 
-    @Column(name = "categoria_pai_id")
-    private Integer categoraiPaiId;
+    @Embedded
+    private EnderecoEntregaPedido enderecoEntrega;
 }
