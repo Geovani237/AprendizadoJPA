@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Date;
 
 public class RelacionamentosOneToOneTest extends EntityManagerTest {
 
@@ -27,5 +28,25 @@ public class RelacionamentosOneToOneTest extends EntityManagerTest {
         Pedido pedidoVerificado = entityManager.find(Pedido.class, pedido.getId());
         Assertions.assertNotNull(pedidoVerificado.getPagamento());
 
+    }
+
+    @Test
+    public void verificarRelacionamentoPedidoNotaFiscar() {
+        Pedido pedido = entityManager.find(Pedido.class, 1);
+
+        NotaFiscal notaFiscal = new NotaFiscal();
+        notaFiscal.setXml("TESTE");
+        notaFiscal.setDataEmissao(new Date());
+        notaFiscal.setPedido(pedido);
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(notaFiscal);
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Pedido pedidoVerificado = entityManager.find(Pedido.class, pedido.getId());
+        Assertions.assertNotNull(pedidoVerificado.getNotaFiscal());
+        Assertions.assertEquals("TESTE", pedidoVerificado.getNotaFiscal().getXml());
     }
 }
