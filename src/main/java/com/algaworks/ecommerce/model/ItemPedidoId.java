@@ -16,10 +16,10 @@ public class ItemPedidoId implements Serializable {
 
     @EqualsAndHashCode.Include
     @Column(name = "pedido_id")
-    private Integer pedidoid;
+    private Integer pedidoId;
 
     @EqualsAndHashCode.Include
     @Column(name = "produto_id")
-    private Integer produtoid;
+    private Integer produtoId;
 
 }
