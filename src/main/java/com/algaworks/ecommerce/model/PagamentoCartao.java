@@ -14,12 +14,10 @@ public class PagamentoCartao {
 
     @EqualsAndHashCode.Include
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pedido_id")
     private Integer id;
 
-//    @Column(name = "pedido_id")
-//    private Integer pedidoId;
-
+    @MapsId
     @OneToOne(optional = false)
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;

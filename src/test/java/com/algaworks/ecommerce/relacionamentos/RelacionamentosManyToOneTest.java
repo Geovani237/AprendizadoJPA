@@ -24,9 +24,9 @@ public class RelacionamentosManyToOneTest extends EntityManagerTest {
         pedido.setTotal(BigDecimal.TEN);
         pedido.setCliente(cliente);
 
-        entityManager.persist(pedido);
+//        entityManager.persist(pedido);
 
-        entityManager.flush();
+//        entityManager.flush();
 
         ItemPedido itemPedido = new ItemPedido();
 //        itemPedido.setPedidoid(pedido.getId());
