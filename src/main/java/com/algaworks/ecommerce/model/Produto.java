@@ -55,4 +55,8 @@ public class Produto {
             joinColumns = @JoinColumn(name = "produto_id"))
     private List<Atributo> atributos;
 
+    @Lob
+    @Column(length = 1000)
+    private byte[] fotos;
+
 }
