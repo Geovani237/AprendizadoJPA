@@ -8,7 +8,8 @@ import lombok.Setter;
 @Setter
 @Getter
 @Entity
-@Table(name = "pagamento_boleto")
+@DiscriminatorValue("boleto")
+//@Table(name = "pagamento_boleto")
 public class PagamentoBoleto extends Pagamento {
 
 //    @EqualsAndHashCode.Include

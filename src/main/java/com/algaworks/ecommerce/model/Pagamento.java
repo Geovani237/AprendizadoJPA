@@ -6,6 +6,8 @@ import lombok.Setter;
 
 @Setter
 @Getter
+@DiscriminatorColumn(name = "tipo_pagamento",discriminatorType = DiscriminatorType.STRING)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Entity
 @Table(name = "pagamento")
 public abstract class Pagamento extends EntidadeBaseInteger{

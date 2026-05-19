@@ -48,6 +48,6 @@ public class RelacionamentosOneToOneTest extends EntityManagerTest {
 
         Pedido pedidoVerificado = entityManager.find(Pedido.class, pedido.getId());
         Assertions.assertNotNull(pedidoVerificado.getNotaFiscal());
-        Assertions.assertEquals("TESTE", pedidoVerificado.getNotaFiscal().getXml());
+        Assertions.assertEquals(notaFiscal.getXml(), pedidoVerificado.getNotaFiscal().getXml());
     }
 }
