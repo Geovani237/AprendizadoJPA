@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class OperacoesComTransacaoTest extends EntityManagerTest {
 
@@ -33,6 +34,7 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
         produto.setNome("Microfone Rode Videmic");
         produto.setDescricao("A melhor qualidade de som.");
         produto.setPreco(new BigDecimal("1000"));
+        produto.setDataCriacao(LocalDateTime.now());
 
         entityManager.getTransaction().begin();
         produto = entityManager.merge(produto);
@@ -98,6 +100,7 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
         produto.setNome("Câmera Cano");
         produto.setDescricao("A melhor definição para suas fotos.");
         produto.setPreco(new BigDecimal("5000"));
+        produto.setDataCriacao(LocalDateTime.now());
 
         entityManager.getTransaction().begin();
 
@@ -114,7 +117,10 @@ public class OperacoesComTransacaoTest extends EntityManagerTest {
     @Test
     public void abrirEFecharATransacao() {
         Produto produto = new Produto(); //Somente para o metodo não mostrar erro
-
+        produto.setNome("Go Pro");
+        produto.setDescricao("A melhor definição para seus videos.");
+        produto.setPreco(new BigDecimal("4500"));
+        produto.setDataCriacao(LocalDateTime.now());
         entityManager.getTransaction().begin();
 
         entityManager.persist(produto);

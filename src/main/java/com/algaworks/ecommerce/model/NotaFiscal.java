@@ -13,20 +13,15 @@ import java.util.Date;
 @Table(name = "nota_fiscal")
 public class NotaFiscal extends EntidadeBaseInteger {
 
-//    @EqualsAndHashCode.Include
-//    @Id
-//    @Column(name = "pedido_id")
-//    private Integer id;
-
     @MapsId
     @OneToOne(optional = false)
     @JoinColumn(name = "pedido_id")
     private Pedido pedido;
 
     @Lob
-    @Column(length = 1000)
+    @Column(length = 1000, nullable = false)
     private byte[] xml;
 
-    @Column(name = "data_emissao")
+    @Column(name = "data_emissao", nullable = false)
     private Date dataEmissao;
 }

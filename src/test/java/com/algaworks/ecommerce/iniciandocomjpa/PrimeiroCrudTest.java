@@ -2,6 +2,7 @@ package com.algaworks.ecommerce.iniciandocomjpa;
 
 import com.algaworks.ecommerce.EntityManagerTest;
 import com.algaworks.ecommerce.model.Cliente;
+import com.algaworks.ecommerce.model.SexoCliente;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -13,6 +14,8 @@ public class PrimeiroCrudTest extends EntityManagerTest {
         Cliente cliente = new Cliente();
 //        cliente.setId(3);
         cliente.setNome("Nadja abmin");
+        cliente.setCpf("999");
+        cliente.setSexo(SexoCliente.MASCULINO);
 
         entityManager.getTransaction().begin();
         entityManager.persist(cliente);
@@ -20,14 +23,14 @@ public class PrimeiroCrudTest extends EntityManagerTest {
 
         entityManager.clear();
 
-        Cliente clienteVerificado = entityManager.find(Cliente.class, 3);
+        Cliente clienteVerificado = entityManager.find(Cliente.class, cliente.getId());
         Assertions.assertNotNull(clienteVerificado);
     }
 
     //TODO buscarPorIdentificado
     @Test
     public void buscarPorIdentificado() {
-        Cliente cliente = entityManager.find(Cliente.class, 2);
+        Cliente cliente = entityManager.find(Cliente.class, 1);
         System.out.println(cliente.getNome());
         Assertions.assertNotNull(cliente);
     }
@@ -37,6 +40,8 @@ public class PrimeiroCrudTest extends EntityManagerTest {
     public void atualizarRegistro() {
         Cliente cliente = entityManager.find(Cliente.class, 2);
 
+        cliente.setCpf("333");
+        cliente.setSexo(SexoCliente.MASCULINO);
         cliente.setNome("Geovani Carlos de Souza");
 
         entityManager.getTransaction().begin();
@@ -52,7 +57,7 @@ public class PrimeiroCrudTest extends EntityManagerTest {
     //TODO removerRegistro
     @Test
     public void removerRegistro() {
-        Cliente cliente = entityManager.find(Cliente.class, 1);
+        Cliente cliente = entityManager.find(Cliente.class, 2);
 
         entityManager.getTransaction().begin();
         entityManager.remove(cliente);
@@ -60,7 +65,7 @@ public class PrimeiroCrudTest extends EntityManagerTest {
 
         entityManager.clear();
 
-        Cliente clienteVerificado = entityManager.find(Cliente.class, 1);
+        Cliente clienteVerificado = entityManager.find(Cliente.class, 2);
         Assertions.assertNull(clienteVerificado);
 
     }

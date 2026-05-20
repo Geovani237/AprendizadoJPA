@@ -10,10 +10,11 @@ public class EstadosECicloDeVidaTest extends EntityManagerTest {
     public void analisarEstados() {
         //Estado transiente ou novo
         Categoria categoriaNovo = new Categoria();
+        categoriaNovo.setNome("Eletrônicos");
 
         //Estado gerenciado
         Categoria categoriaGerenciada = entityManager.find(Categoria.class, 1);
-
+        categoriaGerenciada.setNome("Eletrônicos");
         //Estado remove
         entityManager.remove(categoriaGerenciada);
 

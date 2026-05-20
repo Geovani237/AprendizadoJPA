@@ -12,19 +12,6 @@ import lombok.Setter;
 @Table(name = "pagamento_cartao")
 public class PagamentoCartao extends Pagamento {
 
-//    @EqualsAndHashCode.Include
-//    @Id
-//    @Column(name = "pedido_id")
-//    private Integer id;
-
-//    @MapsId
-//    @OneToOne(optional = false)
-//    @JoinColumn(name = "pedido_id")
-//    private Pedido pedido;
-//
-//    @Enumerated(EnumType.STRING)
-//    private StatusPagamento status;
-
-    @Column(name = "numero_cartao")
+    @Column(name = "numero_cartao", length = 50, nullable = false)
     private String numeroCartao;
 }

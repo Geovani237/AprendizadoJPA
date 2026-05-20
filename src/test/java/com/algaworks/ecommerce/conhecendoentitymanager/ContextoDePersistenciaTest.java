@@ -5,6 +5,7 @@ import com.algaworks.ecommerce.model.Produto;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 public class ContextoDePersistenciaTest extends EntityManagerTest {
 
@@ -17,6 +18,7 @@ public class ContextoDePersistenciaTest extends EntityManagerTest {
         produto.setPreco(new BigDecimal("100.0")); //Quando pegamos uma instancia já gerenciada como produto, e setamos alguma propriedade igual está sendo feito, isso costuma ser chamado de "Dirty Checking"
 
         Produto produto2 = new Produto();
+        produto2.setDataCriacao(LocalDateTime.now());
         produto2.setNome("Caneca para café");
         produto2.setPreco(new BigDecimal("102.0"));
         produto2.setDescricao("Boa caneca para café");
@@ -25,6 +27,7 @@ public class ContextoDePersistenciaTest extends EntityManagerTest {
 
 
         Produto produto3 = new Produto();
+        produto3.setDataCriacao(LocalDateTime.now());
         produto3.setNome("Caneca para chá");
         produto3.setPreco(new BigDecimal("10.0"));
         produto3.setDescricao("Boa caneca para chá");

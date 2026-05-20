@@ -18,13 +18,10 @@ import java.util.Map;
         indexes = { @Index(name = "idx_nome", columnList = "nome")})
 public class Cliente extends EntidadeBaseInteger {
 
-//    @EqualsAndHashCode.Include
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Integer id;
-
+    @Column(columnDefinition = "varchar(100) not null")
     private String nome;
 
+    @Column(columnDefinition = "varchar(14) not null")
     private String cpf;
 
     @ElementCollection
@@ -36,7 +33,7 @@ public class Cliente extends EntidadeBaseInteger {
     @Transient
     private String primeiroNome;
 
-    @Column(table = "cliente_detalhe")
+    @Column(table = "cliente_detalhe", length = 30, nullable = false)
     @Enumerated(EnumType.STRING)
     private SexoCliente sexo;
 
