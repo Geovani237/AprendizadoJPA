@@ -19,11 +19,6 @@ import java.util.List;
 @Table(name = "pedido")
 public class Pedido extends EntidadeBaseInteger {
 
-//    @EqualsAndHashCode.Include
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Integer id;
-
     @ManyToOne(optional = false)
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
@@ -40,8 +35,10 @@ public class Pedido extends EntidadeBaseInteger {
    @OneToOne(mappedBy = "pedido")
     private NotaFiscal notaFiscal;
 
+   @Column(precision = 19, scale = 2, nullable = false)
     private BigDecimal total;
 
+   @Column(length = 30, nullable = false)
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
 

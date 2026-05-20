@@ -10,13 +10,8 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-@Table(name = "categoria")
+@Table(name = "categoria", uniqueConstraints = { @UniqueConstraint(name = "unq_name", columnNames = { "nome" })})
 public class Categoria extends EntidadeBaseInteger {
-
-//    @EqualsAndHashCode.Include
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Integer id;
 
     private String nome;
 

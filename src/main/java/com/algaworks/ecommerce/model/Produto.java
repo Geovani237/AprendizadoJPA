@@ -14,13 +14,10 @@ import java.util.List;
 @Setter
 @EntityListeners({ GenericoListener.class })
 @Entity
-@Table(name = "produto")
+@Table(name = "produto",
+        uniqueConstraints = { @UniqueConstraint(name = "unq_name" , columnNames = { "nome" })},
+        indexes = { @Index(name = "idx_name", columnList = "nome")})
 public class Produto extends EntidadeBaseInteger{
-
-//    @EqualsAndHashCode.Include
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Integer id;
 
     @Column(name = "data_criacao", updatable = false)
     private LocalDateTime dataCriacao;
@@ -28,10 +25,13 @@ public class Produto extends EntidadeBaseInteger{
     @Column(name = "data_ultima_atualizacao", insertable = false)
     private LocalDateTime dataUltimaAtualizacao;
 
+    @Column(length = 100, nullable = false)
     private String nome;
 
+    @Column(columnDefinition = "varchar(275) not null default 'descricao'")
     private String descricao;
 
+    @Column(precision = 10, scale = 2)
     private BigDecimal preco;
 
     @ManyToMany
