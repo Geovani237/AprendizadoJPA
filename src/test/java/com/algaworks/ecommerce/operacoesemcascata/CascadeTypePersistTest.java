@@ -9,8 +9,35 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.List;
 
 public class CascadeTypePersistTest extends EntityManagerTest {
+
+//    @Test
+    public void persistirProdutoComCategoria() {
+        Produto produto = new Produto();
+        produto.setDataCriacao(LocalDateTime.now());
+        produto.setPreco(BigDecimal.TEN);
+        produto.setNome("Fone QCY");
+        produto.setDescricao("Fone de alta qualidade");
+
+        Categoria categoria = new Categoria();
+        categoria.setNome("Áudio");
+
+        produto.setCategorias(List.of(categoria));
+
+        entityManager.getTransaction().begin();
+        entityManager.persist(produto);
+        entityManager.getTransaction().commit();
+
+        entityManager.clear();
+
+        Produto produtoVerificacao = entityManager.find(Produto.class, produto.getId());
+        Assertions.assertFalse(produtoVerificacao.getCategorias().isEmpty());
+
+        Categoria categoriaVerificacao = entityManager.find(Categoria.class, categoria.getId());
+        Assertions.assertNotNull(categoriaVerificacao);
+    }
 
 //    @Test
     public void persistirPedidoComItens() {
@@ -39,8 +66,8 @@ public class CascadeTypePersistTest extends EntityManagerTest {
         entityManager.clear();
 
         Pedido pedidoVerificacao = entityManager.find(Pedido.class, pedido.getId());
-        Assertions.assertNotNull(pedido);
-        Assertions.assertFalse(pedido.getItens().isEmpty());
+        Assertions.assertNotNull(pedidoVerificacao);
+        Assertions.assertFalse(pedidoVerificacao.getItens().isEmpty());
     }
 
     @Test
@@ -68,7 +95,7 @@ public class CascadeTypePersistTest extends EntityManagerTest {
         entityManager.clear();
 
         Pedido pedidoVerificacao = entityManager.find(Pedido.class, pedido.getId());
-        Assertions.assertNotNull(pedido);
+        Assertions.assertNotNull(pedidoVerificacao);
     }
 
 //    @Test
@@ -91,8 +118,8 @@ public class CascadeTypePersistTest extends EntityManagerTest {
 
         entityManager.clear();
 
-        Cliente pedidoVerificado = entityManager.find(Cliente.class, cliente.getId());
-        Assertions.assertNotNull(cliente);
+        Cliente pedidoVerificacao = entityManager.find(Cliente.class, cliente.getId());
+        Assertions.assertNotNull(pedidoVerificacao);
 
     }
 }
