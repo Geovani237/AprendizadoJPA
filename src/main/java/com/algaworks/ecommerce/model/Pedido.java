@@ -14,7 +14,7 @@ import java.util.List;
 
 @Setter
 @Getter
-@EntityListeners({ GerarNotaFiscalListener.class , GenericoListener.class})
+@EntityListeners({GerarNotaFiscalListener.class, GenericoListener.class})
 @Entity
 @Table(name = "pedido")
 public class Pedido extends EntidadeBaseInteger {
@@ -33,20 +33,20 @@ public class Pedido extends EntidadeBaseInteger {
     @Column(name = "data_conclusao")
     private LocalDateTime dataConclusao;
 
-   @OneToOne(mappedBy = "pedido")
+    @OneToOne(mappedBy = "pedido")
     private NotaFiscal notaFiscal;
 
-   @Column(nullable = false)
+    @Column(nullable = false)
     private BigDecimal total;
 
-   @Column(length = 30, nullable = false)
+    @Column(length = 30, nullable = false)
     @Enumerated(EnumType.STRING)
     private StatusPedido status;
 
     @OneToOne(mappedBy = "pedido")
     private Pagamento pagamento;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.REFRESH)
+    @OneToMany(mappedBy = "pedido")
     private List<ItemPedido> itens;
 
     @Embedded
@@ -56,7 +56,7 @@ public class Pedido extends EntidadeBaseInteger {
         return StatusPedido.PAGO.equals(status);
     }
 
-//    @PrePersist
+    //    @PrePersist
 //    @PreUpdate
     public void calcularTotal() {
         if (itens != null) {

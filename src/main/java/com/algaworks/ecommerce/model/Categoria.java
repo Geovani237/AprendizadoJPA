@@ -10,7 +10,7 @@ import java.util.List;
 @Setter
 @Getter
 @Entity
-@Table(name = "categoria", uniqueConstraints = { @UniqueConstraint(name = "unq_name", columnNames = { "nome" })})
+@Table(name = "categoria", uniqueConstraints = {@UniqueConstraint(name = "unq_name", columnNames = {"nome"})})
 public class Categoria extends EntidadeBaseInteger {
 
     @Column(length = 100, nullable = false)
