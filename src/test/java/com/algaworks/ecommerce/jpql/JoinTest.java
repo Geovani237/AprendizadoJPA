@@ -1,0 +1,24 @@
+package com.algaworks.ecommerce.jpql;
+
+import com.algaworks.ecommerce.EntityManagerTest;
+import com.algaworks.ecommerce.model.Pedido;
+import com.algaworks.ecommerce.model.Produto;
+import jakarta.persistence.TypedQuery;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+public class JoinTest extends EntityManagerTest {
+
+    @Test
+    public void fazerJoin() {
+//        String jpql = "select p from Produto p";
+        String jpql = "select p, pag from Pedido p join p.pagamento pag";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+
+        List<Object[]> lista = typedQuery.getResultList();
+        Assertions.assertTrue(lista.size() == 1);
+    }
+}
