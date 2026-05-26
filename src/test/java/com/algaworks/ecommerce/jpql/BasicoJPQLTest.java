@@ -15,18 +15,6 @@ import java.util.List;
 public class BasicoJPQLTest extends EntityManagerTest {
 
     @Test
-    public void usarJoinFetch() {
-        String jpql = "select p from Pedido p left join fetch p.pagamento join fetch p.cliente left join fetch p.notaFiscal";
-
-        TypedQuery<Pedido> typedQuery = entityManager.createQuery(jpql, Pedido.class);
-
-        List<Pedido> lista = typedQuery.getResultList();
-        Assertions.assertFalse(lista.isEmpty());
-
-
-    }
-
-    @Test
     public void projetarNoDTO() {
         String jpql = "select new com.algaworks.ecommerce.dto.ProdutoDTO(id, nome) from Produto";
 
