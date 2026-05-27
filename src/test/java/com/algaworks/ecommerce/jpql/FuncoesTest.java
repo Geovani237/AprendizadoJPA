@@ -12,6 +12,18 @@ import java.util.TimeZone;
 public class FuncoesTest extends EntityManagerTest {
 
     @Test
+    public void aplicarFuncaoColecao() {
+        String jpql = "select size(p.itens) from Pedido p where size(p.itens) > 1";
+
+        TypedQuery<Integer> typedQuery = entityManager.createQuery(jpql, Integer.class);
+
+        List<Integer> lista = typedQuery.getResultList();
+        Assertions.assertFalse(lista.isEmpty());
+
+        lista.forEach(System.out::println);
+    }
+
+    @Test
     public void aplicarFuncaoNumero() {
         String jpql = "select abs(p.total), mod(p.id, 2), sqrt(p.total) from Pedido p" +
                 " where abs(p.total) > 1000";
