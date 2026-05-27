@@ -12,6 +12,19 @@ import java.util.TimeZone;
 public class FuncoesTest extends EntityManagerTest {
 
     @Test
+    public void aplicarFuncaoNativas() {
+        String jpql = "select function('dayname', p.dataCriacao) from Pedido p " +
+                " where function('acima_media_faturamento' , p.total) = 1";
+
+        TypedQuery<String> typedQuery = entityManager.createQuery(jpql, String.class);
+
+        List<String> lista = typedQuery.getResultList();
+        Assertions.assertFalse(lista.isEmpty());
+
+        lista.forEach(System.out::println);
+    }
+
+    @Test
     public void aplicarFuncaoColecao() {
         String jpql = "select size(p.itens) from Pedido p where size(p.itens) > 1";
 
