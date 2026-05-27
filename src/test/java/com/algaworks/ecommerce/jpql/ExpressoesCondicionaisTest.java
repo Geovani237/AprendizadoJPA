@@ -11,8 +11,27 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class ExpressoesCondicionaisTest extends EntityManagerTest {
+
+    @Test
+    public void usarExpressaoCase() {
+        String jpql = "select p.id, " +
+                " case type(p.pagamento) " +
+                "       when PagamentoBoleto then 'Pago com boleto' " +
+                "       when PagamentoCartao then 'Pago com cartão' " +
+                "       else 'Não pago ainda.' " +
+                " end " +
+                " from Pedido p";
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
+
+        List<Object[]> lista = typedQuery.getResultList();
+        Assertions.assertFalse(lista.isEmpty());
+
+        lista.forEach(arr -> System.out.println(arr[0] + ", " + arr[1]));
+    }
 
     @Test
     public void usarExpressaoDiferente() {
