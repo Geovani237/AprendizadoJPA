@@ -13,6 +13,19 @@ import java.util.List;
 public class SubqueriesTest extends EntityManagerTest {
 
     @Test
+    public void todosOsProdutosVendidoMesmoPreco() {
+        String jpql = "select p from Produto p where " +
+                " p.preco = ALL (select i.precoProduto from ItemPedido i join i.produto prod where prod = p)";
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(jpql, Produto.class);
+        List<Produto> lista = typedQuery.getResultList();
+
+        Assertions.assertFalse(lista.isEmpty());
+
+        lista.forEach(obj -> System.out.println(obj.getId() + " - " + obj.getNome() + " - " + obj.getPreco()));
+    }
+
+    @Test
     public void pesquisarComAny() {
         // Podemos usar o ANY ou SOME
 
