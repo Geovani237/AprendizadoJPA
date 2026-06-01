@@ -62,9 +62,9 @@ public class GroupByTest extends EntityManagerTest {
 //        String jpql = "select c.nome, count(p.id) from Categoria c join c.produtos p group by c.id";
 
         //Total de vendas por mês
-//        String jpql = "select concat(year(p.dataCriacao), '/', function('monthname', p.dataCriacao)), sum(p.total) " +
-//                " from Pedido p " +
-//                " group by year(p.dataCriacao), month(p.dataCriacao) ";
+        String jpql = "select concat(cast(year(p.dataCriacao) as string), '/', function('monthname', p.dataCriacao)), sum(p.total) " +
+                " from Pedido p " +
+                " group by year(p.dataCriacao), month(p.dataCriacao) ";
 
 
 //        Total de vendas por categoria
@@ -74,7 +74,7 @@ public class GroupByTest extends EntityManagerTest {
 //        String jpql = "select c.nome, sum(ip.precoProduto) from ItemPedido ip join ip.pedido p join p.cliente c group by c.nome";
 
         //Total de vendas por dia e por categoria
-        String jpql = "select concat('Data:', function('DATE_FORMAT', p.dataCriacao, '%d/%m/%Y' )), concat('Categoria:',c.nome), concat('Total Vendas: R$',sum(i.precoProduto)) from ItemPedido i join i.produto p join p.categorias c group by p.dataCriacao, c.nome";
+//        String jpql = "select concat('Data:', function('DATE_FORMAT', p.dataCriacao, '%d/%m/%Y' )), concat('Categoria:',c.nome), concat('Total Vendas: R$',sum(i.precoProduto)) from ItemPedido i join i.produto p join p.categorias c group by p.dataCriacao, c.nome";
 
         TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
 
