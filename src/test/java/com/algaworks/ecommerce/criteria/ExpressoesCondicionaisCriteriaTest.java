@@ -1,10 +1,7 @@
 package com.algaworks.ecommerce.criteria;
 
 import com.algaworks.ecommerce.EntityManagerTest;
-import com.algaworks.ecommerce.model.Cliente;
-import com.algaworks.ecommerce.model.Cliente_;
-import com.algaworks.ecommerce.model.Produto;
-import com.algaworks.ecommerce.model.Produto_;
+import com.algaworks.ecommerce.model.*;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
@@ -14,9 +11,29 @@ import org.junit.jupiter.api.Test;
 
 import javax.crypto.spec.PSource;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ExpressoesCondicionaisCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void usarMaiorMenorDatas() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> criteriaQuery = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+
+        criteriaQuery.select(root);
+        criteriaQuery.where(
+                criteriaBuilder.greaterThan(root.get(Pedido_.DATA_CRIACAO), LocalDateTime.now().minusDays(3)),
+                criteriaBuilder.lessThan(root.get(Pedido_.DATA_CRIACAO), LocalDateTime.now())
+        );
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Pedido> lista = typedQuery.getResultList();
+        Assertions.assertFalse(lista.isEmpty());
+
+        lista.forEach(p -> System.out.println(p.getId() + " - " + p.getStatus() + " - " + p.getTotal() + " - " + p.getDataCriacao()));
+    }
 
     @Test
     public void usarMaiorMenor() {
