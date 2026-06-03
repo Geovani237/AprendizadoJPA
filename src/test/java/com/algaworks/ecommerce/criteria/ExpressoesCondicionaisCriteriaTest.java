@@ -13,9 +13,31 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import javax.crypto.spec.PSource;
+import java.math.BigDecimal;
 import java.util.List;
 
 public class ExpressoesCondicionaisCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void usarMaiorMenor() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Produto> criteriaQuery = criteriaBuilder.createQuery(Produto.class);
+        Root<Produto> root = criteriaQuery.from(Produto.class);
+
+        criteriaQuery.select(root);
+//        criteriaQuery.where(criteriaBuilder.greaterThan(root.get(Produto_.preco), new BigDecimal("799.00")));
+//        criteriaQuery.where(criteriaBuilder.lessThan(root.get(Produto_.preco), new BigDecimal("3500.00")));
+        criteriaQuery.where(
+                criteriaBuilder.greaterThan(root.get(Produto_.preco), new BigDecimal("1000.00")),
+                criteriaBuilder.lessThan(root.get(Produto_.preco), new BigDecimal("3500.00"))
+        );
+
+        TypedQuery<Produto> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Produto> lista = typedQuery.getResultList();
+        Assertions.assertFalse(lista.isEmpty());
+
+        lista.forEach(p -> System.out.println(p.getId() + " - " + p.getNome() + " - " + p.getPreco()));
+    }
 
     @Test
     public void usarIsEmpty() {
