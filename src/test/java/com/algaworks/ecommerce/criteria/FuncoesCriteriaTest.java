@@ -1,11 +1,11 @@
 package com.algaworks.ecommerce.criteria;
 
 import com.algaworks.ecommerce.EntityManagerTest;
-import com.algaworks.ecommerce.model.Cliente;
-import com.algaworks.ecommerce.model.Cliente_;
+import com.algaworks.ecommerce.model.*;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,6 +13,46 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 public class FuncoesCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void aplicarFuncaoData() {
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+        Join<Pedido, Pagamento> joinPagamento = root.join(Pedido_.pagamento);
+        Join<Pedido, PagamentoBoleto> joinPagamentoBoleto = criteriaBuilder
+                .treat(joinPagamento, PagamentoBoleto.class);
+
+        criteriaQuery.multiselect(
+                root.get(Pedido_.id),
+                criteriaBuilder.currentDate(),
+                criteriaBuilder.currentTime(),
+                criteriaBuilder.currentTimestamp()
+
+        );
+
+        criteriaQuery.where(
+                criteriaBuilder.between(criteriaBuilder.currentDate(),
+                    root.get(Pedido_.dataCriacao).as(java.sql.Date.class),
+                    joinPagamentoBoleto.get(PagamentoBoleto_.dataVencimento).as(java.sql.Date.class)),
+                criteriaBuilder.equal(root.get(Pedido_.status), StatusPedido.AGUARDANDO)
+        );
+
+
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
+
+        List<Object[]> lista = typedQuery.getResultList();
+        Assertions.assertFalse(lista.isEmpty());
+
+        lista.forEach(arr -> System.out.println(
+                arr[0]
+                        + ", current_date: " + arr[1]
+                        + ", current_time: " + arr[2]
+                        + ", current_timestamp: " + arr[3]));
+
+    }
 
     @Test
     public void aplicarFuncaoString() {
