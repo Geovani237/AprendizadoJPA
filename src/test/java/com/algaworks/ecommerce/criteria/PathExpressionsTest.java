@@ -1,12 +1,11 @@
 package com.algaworks.ecommerce.criteria;
 
 import com.algaworks.ecommerce.EntityManagerTest;
-import com.algaworks.ecommerce.model.Cliente_;
-import com.algaworks.ecommerce.model.Pedido;
-import com.algaworks.ecommerce.model.Pedido_;
+import com.algaworks.ecommerce.model.*;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,6 +13,27 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 public class PathExpressionsTest extends EntityManagerTest {
+
+    @Test
+    public void buscarPedidosComProdutoDeIDIgual1Exercicio() {
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Pedido> criteriaQuery = criteriaBuilder.createQuery(Pedido.class);
+        Root<Pedido> root = criteriaQuery.from(Pedido.class);
+        Join<Pedido, ItemPedido> joinPedido = root.join(Pedido_.itens);
+
+        criteriaQuery.select(root);
+
+        criteriaQuery.where(
+                criteriaBuilder.equal(joinPedido.get(ItemPedido_.produto).get(Produto_.id), 1)
+        );
+
+
+        TypedQuery<Pedido> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Pedido> lista = typedQuery.getResultList();
+        Assertions.assertFalse(lista.isEmpty());
+
+        lista.forEach(p -> System.out.println("ID: " + p.getId()));
+    }
 
     @Test
     public void usarPathExpression() {
