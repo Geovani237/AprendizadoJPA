@@ -2,6 +2,7 @@ package com.algaworks.ecommerce.criteria;
 
 import com.algaworks.ecommerce.EntityManagerTest;
 import com.algaworks.ecommerce.model.*;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.TypedQuery;
 import jakarta.persistence.criteria.*;
 import org.junit.jupiter.api.Assertions;
@@ -10,6 +11,30 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 public class GroupByCriteriaTest extends EntityManagerTest {
+
+    @Test
+    public void agruparResultado03Exercicio() {
+        // total de venda por cliente
+
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Object[]> criteriaQuery = criteriaBuilder.createQuery(Object[].class);
+        Root<ItemPedido> root = criteriaQuery.from(ItemPedido.class);
+        Join<ItemPedido, Pedido> joinPedido = root.join(ItemPedido_.pedido);
+        Join<Pedido, Cliente> joinPedidoCliente = joinPedido.join(Pedido_.cliente);
+
+        criteriaQuery.multiselect(
+                joinPedidoCliente.get(Cliente_.nome),
+                criteriaBuilder.sum(root.get(ItemPedido_.precoProduto))
+        );
+
+        criteriaQuery.groupBy(joinPedidoCliente.get(Cliente_.id));
+
+        TypedQuery<Object[]> typedQuery = entityManager.createQuery(criteriaQuery);
+        List<Object[]> lista = typedQuery.getResultList();
+        Assertions.assertFalse(lista.isEmpty());
+
+        lista.forEach(arr -> System.out.println("Cliente: " + arr[0] + ", Total Vendas: " + arr[1]));
+    }
 
     @Test
     public void agruparResultado02() {
