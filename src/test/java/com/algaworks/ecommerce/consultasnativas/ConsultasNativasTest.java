@@ -1,6 +1,7 @@
 package com.algaworks.ecommerce.consultasnativas;
 
 import com.algaworks.ecommerce.EntityManagerTest;
+import com.algaworks.ecommerce.dto.ProdutoDTO;
 import com.algaworks.ecommerce.model.ItemPedido;
 import com.algaworks.ecommerce.model.Produto;
 import jakarta.persistence.Query;
@@ -9,6 +10,18 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 public class ConsultasNativasTest extends EntityManagerTest {
+
+    @Test
+    public void usarColumnResultRetornarDTO() {
+        String sql = "select * from ecm_produto";
+
+
+        Query query = entityManager.createNativeQuery(sql, "ecm_produto.ProdutoDTO");
+
+        List<ProdutoDTO> lista = query.getResultList();
+
+        lista.forEach(p -> System.out.printf("ProdutoDTO => ID: %s, Nome: %s%n", p.getId(), p.getNome()));
+    }
 
     @Test
     public void usarFieldResult() {
