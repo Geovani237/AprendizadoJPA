@@ -10,6 +10,19 @@ import java.util.List;
 public class ConsultasNativasTest extends EntityManagerTest {
 
     @Test
+    public void executarSQlPassandoParametros() {
+        String sql = "select prd_id id, prd_nome nome, prd_descricao descricao, prd_data_criacao data_criacao, prd_data_ultima_atualizacao data_ultima_atualizacao, prd_preco preco, prd_foto fotos " +
+                " from ecm_produto where prd_id = :id";
+
+        Query query = entityManager.createNativeQuery(sql, Produto.class);
+        query.setParameter("id", 201);
+
+        List<Produto> lista = query.getResultList();
+
+        lista.forEach(p -> System.out.printf("Produto => ID: %s, Nome: %s%n", p.getId(), p.getNome()));
+    }
+
+    @Test
     public void executarSQlRetornandoEntidade() {
         // Contem todos os campos da entidade Produto porem em outra tabela, e os nomes da tabela produto_loja tem de ser exatamente iguais aos de produto
 //        String sql = "select id, nome, descricao, data_criacao, data_ultima_atualizacao, preco, fotos " +
