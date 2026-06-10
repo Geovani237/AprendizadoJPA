@@ -9,6 +9,10 @@ import java.math.BigDecimal;
 
 @Setter
 @Getter
+@SqlResultSetMappings({
+        @SqlResultSetMapping(name = "item_pedido-produto.ItemPedido-Produto",
+                entities = { @EntityResult(entityClass = ItemPedido.class), @EntityResult(entityClass = Produto.class)})
+})
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "item_pedido")
