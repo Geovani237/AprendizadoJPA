@@ -9,6 +9,19 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 public class ConsultasNativasTest extends EntityManagerTest {
+
+    @Test
+    public void usarFieldResult() {
+        String sql = "select * from ecm_produto";
+
+
+        Query query = entityManager.createNativeQuery(sql, "ecm_produto.Produto");
+
+        List<Produto> lista = query.getResultList();
+
+        lista.forEach(p -> System.out.printf("Produto => ID: %s, Nome: %s%n", p.getId(), p.getNome()));
+    }
+
     @Test
     public void usarSQLResultSetMapping02() {
         String sql = "select ip.*, p.* from item_pedido ip join produto p on p.id = ip.produto_id";
