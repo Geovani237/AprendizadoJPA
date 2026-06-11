@@ -1,9 +1,11 @@
 package com.algaworks.ecommerce.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.Singular;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -26,9 +28,12 @@ import java.util.Map;
         indexes = { @Index(name = "idx_nome", columnList = "nome")})
 public class Cliente extends EntidadeBaseInteger {
 
+    @NotBlank
     @Column(columnDefinition = "varchar(100) not null")
     private String nome;
 
+    @NotNull
+    @Pattern(regexp = "(^\\d{3}\\x2E\\d{3}\\x2E\\d{3}\\x2D\\d{2}$)")
     @Column(columnDefinition = "varchar(14) not null")
     private String cpf;
 
@@ -41,10 +46,12 @@ public class Cliente extends EntidadeBaseInteger {
     @Transient
     private String primeiroNome;
 
+    @NotNull
     @Column(table = "cliente_detalhe", length = 30, nullable = false)
     @Enumerated(EnumType.STRING)
     private SexoCliente sexo;
 
+    @Past
     @Column(name = "data_nascimento", table = "cliente_detalhe")
     private LocalDate dataNascimento;
 
