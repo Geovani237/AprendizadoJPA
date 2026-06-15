@@ -20,6 +20,30 @@ import java.util.List;
 
 @Getter
 @Setter
+@NamedEntityGraphs({
+        @NamedEntityGraph(
+                name = "Pedido.dadosEssencial",
+                attributeNodes = {
+                        @NamedAttributeNode("dataCriacao"),
+                        @NamedAttributeNode("status"),
+                        @NamedAttributeNode("total"),
+                        @NamedAttributeNode(
+                                value = "cliente",
+                                subgraph = "cli"
+                        ),
+                },
+                subgraphs = {
+                        @NamedSubgraph(
+                                name = "cli",
+                                attributeNodes = {
+                                        @NamedAttributeNode("nome"),
+                                        @NamedAttributeNode("cpf")
+
+                                }
+                        )
+                }
+        )
+})
 @EntityListeners({ GerarNotaFiscalListener.class, GenericoListener.class })
 @Entity
 @Table(name = "pedido")

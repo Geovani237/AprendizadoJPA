@@ -16,6 +16,20 @@ import java.util.List;
 public class EntityGraphTest extends EntityManagerTest {
 
     @Test
+    public void buscarAtributosEssenciaisComNamedEntityGraph() {
+        EntityGraph<?> entityGraph = entityManager
+                .createEntityGraph("Pedido.dadosEssencial");
+        entityGraph.addAttributeNodes("pagamento");
+//        entityGraph.addSubgraph("pagamento").addAttributeNodes("status");
+
+        TypedQuery<Pedido> typedQuery = entityManager
+                .createQuery("select p from Pedido p", Pedido.class);
+        typedQuery.setHint("jakarta.persistence.fetchgraph", entityGraph);
+        List<Pedido> lista = typedQuery.getResultList();
+        Assertions.assertFalse(lista.isEmpty());
+    }
+
+    @Test
     public void buscarAtributosEssenciaisDePedido03() {
         EntityGraph<Pedido> entityGraph = entityManager.createEntityGraph(Pedido.class);
         entityGraph.addAttributeNodes(
