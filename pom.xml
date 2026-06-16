@@ -71,6 +71,13 @@
             <version>5.9.3</version>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-testing</artifactId>
+            <version>6.2.2.Final</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>
