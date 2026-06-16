@@ -41,6 +41,7 @@ import java.util.List;
         )
 })
 @EntityListeners({ GerarNotaFiscalListener.class, GenericoListener.class })
+//@Cacheable Como no persistence.xml esta como ALL não precisa do Cachable
 @Entity
 @Table(name = "pedido")
 public class Pedido extends EntidadeBaseInteger
