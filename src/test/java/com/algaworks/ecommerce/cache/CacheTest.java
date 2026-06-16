@@ -5,10 +5,7 @@ import jakarta.persistence.Cache;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 public class CacheTest {
 
@@ -23,6 +20,21 @@ public class CacheTest {
     @AfterAll
     public static void tearDownAfterClass() {
         entityManagerFactory.close();
+    }
+
+    @Test
+    public void verificarSeEstaNoCache() {
+        Cache cache = entityManagerFactory.getCache();
+
+        EntityManager entityManager1 = entityManagerFactory.createEntityManager();
+
+        System.out.println("Buscando a partir da instância 1: ");
+        entityManager1
+                .createQuery("select p from Pedido p", Pedido.class)
+                .getResultList();
+
+        Assertions.assertTrue(cache.contains(Pedido.class, 1));
+        Assertions.assertTrue(cache.contains(Pedido.class, 2));
     }
 
     @Test
