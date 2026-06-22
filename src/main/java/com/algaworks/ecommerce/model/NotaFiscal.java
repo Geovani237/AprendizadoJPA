@@ -4,32 +4,36 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.Type;
 
-import java.sql.Types;
 import java.util.Date;
 
-@Setter
 @Getter
+@Setter
 @Entity
 @Table(name = "nota_fiscal")
-public class NotaFiscal extends EntidadeBaseInteger {
+public class NotaFiscal {
+
+    @Id
+    private Integer id;
+
+    @Version
+    private Integer versao;
 
     @NotNull
     @MapsId
-    @OneToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "pedido_id",nullable = false,
-            foreignKey = @ForeignKey(name = "fk_nota_fisca_pedido"))
+    @OneToOne(optional = false)
+    @JoinColumn(name = "pedido_id", nullable = false,
+            foreignKey = @ForeignKey(name = "fk_nota_fiscal_pedido"))
+//    @JoinTable(name = "pedido_nota_fiscal",
+//            joinColumns = @JoinColumn(name = "nota_fiscal_id", unique = true),
+//            inverseJoinColumns = @JoinColumn(name = "pedido_id", unique = true))
     private Pedido pedido;
 
     @NotEmpty
     @Lob
     @Column(length = 1000, nullable = false)
-    @JdbcTypeCode(Types.VARBINARY)
     private byte[] xml;
 
     @PastOrPresent
