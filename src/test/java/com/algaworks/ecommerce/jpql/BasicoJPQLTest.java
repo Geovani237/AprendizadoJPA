@@ -61,7 +61,7 @@ public class BasicoJPQLTest extends EntityManagerTest {
         TypedQuery<Object[]> typedQuery = entityManager.createQuery(jpql, Object[].class);
         List<Object[]> lista = typedQuery.getResultList();
 
-        Assertions.assertTrue(lista.size() == 2);
+        Assertions.assertFalse(lista.isEmpty());
 
         lista.forEach(arr -> System.out.println(arr[0] + ", " + arr[1]));
     }

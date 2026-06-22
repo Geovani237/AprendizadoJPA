@@ -9,8 +9,10 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.Length;
+import org.hibernate.annotations.JdbcTypeCode;
 
 import java.math.BigDecimal;
+import java.sql.Types;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -55,8 +57,8 @@ import java.util.List;
 @EntityListeners({ GenericoListener.class })
 @Entity
 @Table(name = "produto",
-        uniqueConstraints = { @UniqueConstraint(name = "unq_name" , columnNames = { "nome" })},
-        indexes = { @Index(name = "idx_name", columnList = "nome")})
+        uniqueConstraints = { @UniqueConstraint(name = "unq_produto_name" , columnNames = { "nome" })},
+        indexes = { @Index(name = "idx_produto_name", columnList = "nome")})
 public class Produto extends EntidadeBaseInteger{
 
     @PastOrPresent
@@ -72,7 +74,7 @@ public class Produto extends EntidadeBaseInteger{
     @Column(length = 100, nullable = false)
     private String nome;
 
-    @Lob
+//    @Lob
     @Column(length = Length.LONG32)
     private String descricao;
 
@@ -103,6 +105,7 @@ public class Produto extends EntidadeBaseInteger{
 
     @Lob
     @Column(length = 1000)
+    @JdbcTypeCode(Types.VARBINARY)
     private byte[] fotos;
 
     @Convert(converter = BooleanToSimNaoConverter.class)
