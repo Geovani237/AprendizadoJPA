@@ -8,7 +8,8 @@ import jakarta.validation.constraints.*;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-
+import org.hibernate.Length;
+import org.hibernate.annotations.JdbcTypeCode;
 
 import java.math.BigDecimal;
 import java.sql.Types;
@@ -73,10 +74,8 @@ public class Produto extends EntidadeBaseInteger{
     @Column(length = 100, nullable = false)
     private String nome;
 
-//    @Lob
-//    @Column(length = Length.LONG32)
     @Lob
-    @Column(length = 2147483647)
+    @Column(length = Length.LONG32)
     private String descricao;
 
     @Positive
@@ -106,7 +105,7 @@ public class Produto extends EntidadeBaseInteger{
 
     @Lob
     @Column(length = 1000)
-//    @JdbcTypeCode(Types.VARBINARY)
+    @JdbcTypeCode(Types.VARBINARY)
     private byte[] fotos;
 
     @Convert(converter = BooleanToSimNaoConverter.class)
